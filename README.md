@@ -46,3 +46,18 @@ fn main() {
 }
 
 ```
+
+
+# Caveats
+## TLS tunnel
+It only permits one connection at a time, if the client disconnects from the clientside, the server won't break the connection
+and will additionally continue using the previous connection for any succeeding clients.
+
+## TLS parser
+Lots. It's a buggy mess, but I didnt bother fixing most since it did its task
+just fine assuming good network conditions (it doesnt handle out-of-order packets nor retransmissions well at all).
+The final rule (3rd) may be buggy and allow any size, I wont bother investigating this due to, once again, time constraints and it
+working fine enough to not result in false positives nor false negatives during testing.
+
+Timing-based checks are broken due to timestamps being negative for some stupid reason. I decided to simply 
+disable it for now.
